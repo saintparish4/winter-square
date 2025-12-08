@@ -1,0 +1,56 @@
+# Build directories
+build/
+cmake-build-*/
+
+# Compiled binaries and libraries
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# Test artifacts and directories
+
+
+# Benchmark artifacts and directories  
+benchmarks/
+benchmark_*
+*_benchmark
+*.bench
+
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Logs and debug files
+*.log
+core.*
+gdb.txt
+
+# Performance profiling files
+*.prof
+*.perf
+callgrind.*
+cachegrind.*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Project documentation and notes
+REBUILD_STRATEGY.md
+
+# OS specific
+Thumbs.db
