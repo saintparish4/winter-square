@@ -5,7 +5,7 @@ set -e
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
+RUBY='\033[38;5;161m'
 NC='\033[0m' # No Color
 
 echo -e "${GREEN}HFT Core Build Script${NC}"
@@ -49,7 +49,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check for required tools
-echo -e "${YELLOW}Checking dependencies...${NC}"
+echo -e "${RUBY}Checking dependencies...${NC}"
 
 if ! command -v cmake &> /dev/null; then
     echo -e "${RED}CMake not found. Please install CMake 3.16 or later.${NC}"
@@ -66,7 +66,7 @@ echo ""
 
 # Clean if requested
 if [ "$CLEAN" = true ]; then
-    echo -e "${YELLOW}Cleaning build directory...${NC}"
+    echo -e "${RUBY}Cleaning build directory...${NC}"
     rm -rf build
     echo -e "${GREEN}✓ Clean complete${NC}"
     echo ""
@@ -77,7 +77,7 @@ mkdir -p build
 cd build
 
 # Configure
-echo -e "${YELLOW}Configuring ($BUILD_TYPE)...${NC}"
+echo -e "${RUBY}Configuring ($BUILD_TYPE)...${NC}"
 
 if [ "$BUILD_TYPE" = "Debug" ]; then
     cmake .. \
@@ -99,14 +99,14 @@ echo -e "${GREEN}✓ Configuration complete${NC}"
 echo ""
 
 # Build
-echo -e "${YELLOW}Building...${NC}"
+echo -e "${RUBY}Building...${NC}"
 make -j$(nproc)
 echo -e "${GREEN}✓ Build complete${NC}"
 echo ""
 
 # Run tests if requested
 if [ "$RUN_TESTS" = true ]; then
-    echo -e "${YELLOW}Running tests...${NC}"
+    echo -e "${RUBY}Running tests...${NC}"
     ctest --output-on-failure
     echo -e "${GREEN}✓ Tests passed${NC}"
     echo ""
@@ -122,9 +122,12 @@ echo "Executables:"
 echo "  Examples:"
 echo "    - ./examples/basic_example"
 echo "    - ./examples/udp_sender"
+echo "    - ./examples/itch50_example"
+echo "    - ./examples/itch_generator"
 echo "  Benchmarks:"
 echo "    - ./benchmarks/latency_benchmark"
 echo "  Tests:"
 echo "    - ./tests/test_lockfree_queue"
+echo "    - ./tests/test_itch50_parser"
 echo ""
 echo -e "${GREEN}Build successful! 🚀${NC}"
