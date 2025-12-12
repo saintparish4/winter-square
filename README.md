@@ -282,12 +282,7 @@ winter-square/
 ## Roadmap
 
 - [x] NASDAQ ITCH 5.0 protocol parser
-- [ ] Kernel bypass networking (DPDK/io_uring)
-- [ ] Hardware timestamping
-- [ ] Protocol parsers (OUCH, FIX)
-- [ ] MoldUDP64 framing support
-- [ ] Order book construction
-- [ ] FPGA integration path
+- [ ] Order Books Implementation
 
 ---
 
