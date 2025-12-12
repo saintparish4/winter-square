@@ -2,7 +2,58 @@
 
 **High-performance, lock-free market data infrastructure for ultra-low latency trading systems.**
 
-A C++20 header-only library providing the core building blocks for capturing, parsing, and distributing market data with sub-200 nanosecond latency.
+---
+
+## Summary
+
+Winter Square is a C++20 header-only library engineered for capturing, parsing, and distributing market data with sub-200 nanosecond latency. Built for quantitative trading firms and HFT systems, it provides the foundational infrastructure layer between raw network feeds and trading strategy engines.
+
+The library implements a pipeline architecture: UDP multicast data flows through a zero-copy ring buffer, gets parsed via a pluggable protocol adapter, and is distributed to subscribers through lock-free queues—all without a single mutex in the hot path.
+
+---
+
+## Features
+
+| Category | Feature |
+|----------|---------|
+| **Performance** | Sub-200ns average latency under load |
+| **Reliability** | Zero packet loss under all tested conditions |
+| **Throughput** | 38,000-40,000 packets/second sustained |
+| **Concurrency** | Lock-free SPSC/MPSC queues for thread communication |
+| **Memory** | Zero-copy message views, no allocations in hot path |
+| **Extensibility** | Pluggable parser and subscriber interfaces |
+| **Deployment** | Header-only, single include integration |
+| **Determinism** | CPU affinity support for predictable latency |
+| **Cache Efficiency** | 64-byte cache-line aligned data structures |
+
+---
+
+## Tech Stack
+
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Language** | C++20 | Concepts, constexpr, designated initializers |
+| **Build System** | CMake 3.16+ | Cross-platform build configuration |
+| **Networking** | POSIX Sockets | UDP multicast reception |
+| **Concurrency** | `std::atomic` | Lock-free synchronization primitives |
+| **Memory Model** | C++11 Memory Ordering | `memory_order_acquire/release` for correctness |
+| **Platform** | Linux / WSL2 | POSIX-compliant systems |
+| **Compiler** | GCC 10+ / Clang 12+ | Modern C++20 support |
+| **Optimization** | `-O3 -march=native -flto` | Aggressive inlining, LTO, CPU-specific tuning |
+
+---
+
+## Tech Tradeoffs
+
+| Decision | Tradeoff | Rationale |
+|----------|----------|-----------|
+| **Header-only** | Longer compile times vs. easier integration | Single-include deployment; no linking complexity for users |
+| **Lock-free queues** | Higher complexity vs. mutex-based | Eliminates contention; critical for sub-microsecond latency targets |
+| **SPSC over MPMC** | Limited topology vs. simpler/faster | Most market data pipelines are naturally single-producer; MPSC available when needed |
+| **Fixed-size ring buffers** | Memory pre-allocation vs. dynamic sizing | Avoids allocator latency; deterministic memory footprint |
+| **POSIX sockets** | No kernel bypass vs. portability | Baseline implementation; DPDK/io_uring on roadmap for production deployments |
+| **No external dependencies** | Reimplemented primitives vs. library reuse | Zero dependency overhead; full control over hot-path code |
+| **CPU pinning optional** | Requires system tuning vs. out-of-box | Production systems benefit from affinity; dev environments work without |
 
 ---
 
